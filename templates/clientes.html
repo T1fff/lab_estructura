@@ -32,8 +32,20 @@
         <input type="text" name="direccion" placeholder="Dirección" required />
         <button type="submit">Agregar Cliente</button>
       </form>
-      
-      <h2>Lista de Clientes</h2>
+
+      <form method="POST" class="filtro" action="{{ url_for('buscar_clientes') }}">
+        <input
+          type="text"
+          name="query"
+          placeholder="Buscar por ID o nombre de cliente"
+          required
+        />
+        <button type="submit">Buscar Clientes</button>
+      </form>
+      {% if query %}
+      <h2>Resultados de la búsqueda de Clientes:</h2>
+      <a href="{{ url_for('listar_clientes') }}">Listar todos los clientes</a>
+      {% if clientes %}
       <table>
         <thead>
           <tr>
@@ -69,7 +81,52 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if session.get('modal_abierto') %} {% set cliente =
+      {% else %}
+      <p>No se encontraron clientes con el nombre "{{ query }}".</p>
+      {% endif %} {% else %}
+      <h2>Listado completo de Clientes:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if clientes %} {% for cliente in clientes %}
+          <tr>
+            <td>{{ cliente['id']}}</td>
+            <td>{{ cliente['nombre'] }}</td>
+            <td>{{ cliente['correo'] }}</td>
+            <td>{{ cliente['direccion'] }}</td>
+            <td>
+              <!-- Botón para abrir el modal de actualización -->
+              <a
+                class="actualizar_btn"
+                href="{{ url_for('abrir_modal', id=cliente['id']) }}"
+              >
+                Actualizar
+              </a>
+              <form
+                action="{{ url_for('eliminar_cliente', id=cliente['id']) }}"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="4">No hay clientes registrados.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+      {% endif %} {% if session.get('modal_abierto') %} {% set cliente =
       session.get('modal_cliente') %} {% if cliente %}
       <div id="modal" style="display: block">
         <h2>Actualizar Cliente</h2>

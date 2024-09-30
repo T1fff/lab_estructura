@@ -35,12 +35,16 @@
         <input type="number" name="precio" placeholder="Precio" required />
         <button type="submit">Agregar Película</button>
       </form>
-      <h2>Lista de Películas</h2>
-      <form method="POST" action="{{ url_for('buscar_peliculas') }}">
+      <form
+        method="POST"
+        class="filtro"
+        action="{{ url_for('buscar_peliculas') }}"
+      >
         <input
           type="text"
           name="query"
           placeholder="Buscar por título, director, género o año"
+          required
         />
         <button type="submit">Buscar</button>
       </form>
@@ -111,6 +115,7 @@
 
         <div class="peli">
           <div class="peli_img">.</div>
+          <p class="peli_precio">ID: <span>{{ pelicula['id'] }}</span></p>
           <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
           <p class="peli_director">
             Dirigida por: <span>{{ pelicula['director'] }}</span>
@@ -124,14 +129,22 @@
           <p class="peli_precio">
             Precio: <span>{{ pelicula['precio'] }}</span>
           </p>
+          <div class="actions">
+            <form
+              action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit">Eliminar</button>
+            </form>
+            <a
+              href="{{ url_for('abrir_modal_pelicula', id=pelicula['id']) }}"
+              style="text-decoration: none"
+            >
+              <button type="button">Editar</button>
+            </a>
+          </div>
         </div>
-        <form
-          action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
-          method="POST"
-          style="display: inline"
-        >
-          <button type="submit">Eliminar</button>
-        </form>
 
         {% endfor %}
       </div>
@@ -145,6 +158,7 @@
         <div class="peli">
           <div class="peli_img">.</div>
           <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
+          <p class="peli_precio">ID: <span>{{ pelicula['id'] }}</span></p>
           <p class="peli_director">
             Dirigida por: <span>{{ pelicula['director'] }}</span>
           </p>
@@ -157,19 +171,21 @@
           <p class="peli_precio">
             Precio: <span>{{ pelicula['precio'] }}</span>
           </p>
-          <form
-            action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
-            method="POST"
-            style="display: inline"
-          >
-            <button type="submit">Eliminar</button>
-          </form>
-          <a
-            href="{{ url_for('abrir_modal_pelicula', id=pelicula['id']) }}"
-            style="text-decoration: none"
-          >
-            <button type="button">Editar</button>
-          </a>
+          <div class="actions">
+            <form
+              action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit">Eliminar</button>
+            </form>
+            <a
+              href="{{ url_for('abrir_modal_pelicula', id=pelicula['id']) }}"
+              style="text-decoration: none"
+            >
+              <button type="button">Editar</button>
+            </a>
+          </div>
         </div>
         {% endfor %} {% endif %}
       </div>

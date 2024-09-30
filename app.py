@@ -41,6 +41,7 @@ def buscar_peliculas():
         if (query in pelicula['titulo'].lower() or
             query in pelicula['director'].lower() or
             query in pelicula['genero'].lower() or
+            query in pelicula['id'].lower() or
             query == str(pelicula['año']))
     ]
 
@@ -193,7 +194,20 @@ def actualizar_cliente(id):
     session['modal_abierto'] = False
     return redirect(url_for('listar_clientes'))  # Redirige a la lista de clientes
 
+@app.route('/buscar_clientes', methods=['POST'])
+def buscar_clientes():
+    query = request.form.get('query', '').strip().lower()  # Obtener la consulta en minúsculas
 
+    clientes = archivo_clientes.leer_clientes()  # Obtener todos los clientes
+
+    # Filtrar clientes según el criterio de búsqueda
+    clientes_encontrados = [
+        cliente for cliente in clientes
+        if (query in cliente['id'].lower() or 
+            query in cliente['nombre'].lower())
+    ]
+
+    return render_template('clientes.html', clientes=clientes_encontrados, query=query)
 
 @app.route('/cerrar_modal')
 def cerrar_modal():
@@ -225,15 +239,21 @@ def agregar_compra():
     print(mensaje)
     return redirect(url_for('listar_compras'))
 
+@app.route('/buscar_compras', methods=['POST'])
+def buscar_compras():
+    query = request.form.get('query', '').strip().lower()  # Obtener la consulta en minúsculas
+
+    compras = archivo_compras.leer_compra()  # Obtener todas las compras
+    # Filtrar compras según el criterio de búsqueda
+    compras_encontradas = [
+        compra for compra in compras
+        if query in str(compra['id_compra']).lower()  # Cambiado de 'id' a 'id_compra'
+    ]
+    return render_template('compras.html', compras=compras_encontradas, query=query)
+
 @app.route('/eliminar_compra/<id_compra>', methods=['POST'])
 def eliminar_compra(id_compra):
-    # Lógica para eliminar la compra usando el id_compra
-    compras = archivo_compras.leer_compra()  # Asegúrate de que esta función lea la lista de compras
-    compras = [c for c in compras if c['id_compra'] != id_compra]  # Filtra la compra a eliminar
-
-    # Aquí deberías guardar la lista actualizada de compras
-    archivo_compras.actualizar_compra(compras)  # Asegúrate de que esta función esté implementada
-
+    archivo_compras.eliminar_compra(id_compra)
     return redirect(url_for('listar_compras'))
 
 @app.route('/abrir_modal_compra/<id>', methods=['GET'])
@@ -268,8 +288,7 @@ def actualizar_compra(id):
         return redirect(url_for('listar_compras'))  # Redirige a la lista de compras
 
     # Si se encontró la compra, procede a actualizarla
-    compra['id_cliente'] = request.form['id_cliente']
-    compra['id_pelicula'] = request.form['id_pelicula']
+    
     compra['fecha'] = request.form['fecha']
 
     archivo_compras.actualizar_compra(compras)  # Asegúrate de que esta función actualice la lista correctamente

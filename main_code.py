@@ -56,7 +56,7 @@ class Archivo_Pelicula:
     def agregar_pelicula(self, pelicula):
         self.validar_pelicula(pelicula)
         if self.existe_id(pelicula.id):
-            raise ValueError(f"Ya existe una película con el ID {id}")
+            return(f"Ya existe una película con el ID {id}")
         else:
             peliculas = self.leer_pelicula()
             peliculas.append(pelicula.to_dict())

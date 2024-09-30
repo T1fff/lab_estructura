@@ -3,12 +3,12 @@
         "id_compra": "1",
         "id_cliente": "1",
         "id_pelicula": "1",
-        "fecha": "2024-09-29"
+        "fecha": "2024-09-28"
     },
     {
         "id_compra": "2",
         "id_cliente": "2",
         "id_pelicula": "2",
-        "fecha": "2024-09-28"
+        "fecha": "2024-09-27"
     }
 ]

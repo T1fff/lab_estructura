@@ -52,13 +52,29 @@
         />
         <button type="submit">Agregar Compra</button>
       </form>
-      <h2>Lista de Compras</h2>
+      <form
+        method="POST"
+        class="filtro"
+        action="{{ url_for('buscar_compras') }}"
+      >
+        <input
+          type="text"
+          name="query"
+          placeholder="Buscar por ID de compra"
+          required
+        />
+        <button type="submit">Buscar Compras</button>
+      </form>
+      {% if query %}
+      <h2>Resultados de la búsqueda de Compras:</h2>
+      <a href="{{ url_for('listar_compras') }}">Listar todas las compras</a>
+      {% if compras %}
       <table>
         <thead>
           <tr>
             <th>ID Compra</th>
             <th>ID Cliente</th>
-            <th>ID Película</th>
+            <th>ID Pelicula</th>
             <th>Fecha</th>
             <th>Acciones</th>
           </tr>
@@ -90,7 +106,52 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if session.get('modal_abierto') %} {% set compra =
+      {% else %}
+      <p>No se encontraron compras con el ID "{{ query }}".</p>
+      {% endif %} {% else %}
+      <h2>Listado completo de Compras:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Compra</th>
+            <th>ID Cliente</th>
+            <th>ID Pelicula</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if compras %} {% for compra in compras %}
+          <tr>
+            <td>{{ compra['id_compra'] }}</td>
+            <td>{{ compra['id_cliente'] }}</td>
+            <td>{{compra['id_pelicula']}}</td>
+            <td>{{ compra['fecha'] }}</td>
+            <td>
+              <!-- Botón para abrir el modal de actualización -->
+              <a
+                class="actualizar_btn"
+                href="{{ url_for('abrir_modal_compra', id=compra['id_compra']) }}"
+              >
+                Actualizar
+              </a>
+              <form
+                action="{{ url_for('eliminar_compra', id_compra=compra['id_compra']) }}"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="5">No hay compras registradas.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+      {% endif %} {% if session.get('modal_abierto') %} {% set compra =
       session.get('modal_compra') %} {% if compra %}
       <div id="modal" style="display: block">
         <h2>Actualizar Compra</h2>
@@ -99,20 +160,6 @@
           action="{{ url_for('actualizar_compra', id=compra['id_compra']) }}"
           method="POST"
         >
-          <label>ID Cliente:</label>
-          <input
-            type="text"
-            name="id_cliente"
-            value="{{ compra['id_cliente'] }}"
-            required
-          /><br />
-          <label>ID Película:</label>
-          <input
-            type="text"
-            name="id_pelicula"
-            value="{{ compra['id_pelicula'] }}"
-            required
-          /><br />
           <label>Fecha:</label>
           <input
             type="date"
