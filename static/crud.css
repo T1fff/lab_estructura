@@ -2,7 +2,7 @@ form {
   display: flex;
   gap: 1rem;
 }
-form > input {
+form > input, form > select {
   display: flex;
   background: transparent;
   border: none;
@@ -43,4 +43,9 @@ table tr:hover {
 
 table tbody tr:hover {
   background-color: #46464621; /* Color al pasar el ratón sobre la fila */
+}
+
+.reportes{
+  display: flex;
+  align-items: center;
 }

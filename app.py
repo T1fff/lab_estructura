@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from main_code import Archivo_Pelicula, Archivo_Clientes, Archivo_Compra, Pelicula, Clientes, Compra
+from main_code import Archivo_Pelicula, Archivo_Clientes, Archivo_Compra, Pelicula, Clientes, Compra, SistemaReportes
 
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta_super_segura'
@@ -294,6 +294,31 @@ def actualizar_compra(id):
     archivo_compras.actualizar_compra(compras)  # Asegúrate de que esta función actualice la lista correctamente
     session['modal_abierto'] = False
     return redirect(url_for('listar_compras'))  # Redirige a la lista de compras
+
+
+@app.route('/reportes', methods=['GET', 'POST'])
+def reportes():
+    sistema_reportes = SistemaReportes(archivo_compras, archivo_peliculas, archivo_clientes)
+
+    if request.method == 'POST':
+        reporte = request.form.get('reporte')
+
+        if reporte == 'peliculas_mas_vendidas':
+            peliculas_mas_vendidas = sistema_reportes.obtener_peliculas_mas_vendidas()
+            return render_template('reportes.html', peliculas_mas_vendidas=peliculas_mas_vendidas)
+
+        elif reporte == 'clientes_mas_compras':
+            clientes_mas_compras = sistema_reportes.obtener_clientes_con_mas_compras()
+            return render_template('reportes.html', clientes_mas_compras=clientes_mas_compras)
+
+        elif reporte == 'ventas_por_intervalo':
+            fecha_inicio = request.form.get('fecha_inicio')
+            fecha_fin = request.form.get('fecha_fin')
+            ventas_por_intervalo = sistema_reportes.ventas_por_intervalo(fecha_inicio, fecha_fin)
+            return render_template('reportes.html', ventas_por_intervalo=ventas_por_intervalo)
+
+    # Renderizar página inicial de reportes
+    return render_template('reportes.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
