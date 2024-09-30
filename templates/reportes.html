@@ -11,9 +11,12 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='crud.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='reportes.css') }}"
+    />
   </head>
   <body>
-    <!-- Formulario para seleccionar el tipo de reporte -->
     <nav>
       <h1><a href="{{ url_for('index') }}">PELISYA</a></h1>
       <a href="{{ url_for('listar_peliculas') }}">Gestionar Películas</a>
@@ -37,7 +40,6 @@
           <option value="ventas_por_intervalo">Ventas por intervalo</option>
         </select>
 
-        <!-- Si selecciona ventas por intervalo -->
 
         <label for="fecha_inicio">Fecha de inicio:</label>
         <input type="date" name="fecha_inicio" id="fecha_inicio" />
@@ -47,35 +49,39 @@
         <button type="submit">Generar Reporte</button>
       </form>
 
-      <!-- Mostrar reporte de películas más vendidas -->
       {% if peliculas_mas_vendidas %}
       <h2>Películas más vendidas</h2>
       <ul>
         {% for pelicula_id, ventas in peliculas_mas_vendidas %}
-        <li>Película ID {{ pelicula_id }}: {{ ventas }} ventas</li>
+        <li>
+          <p>Película ID {{ pelicula_id }}</p>
+          <p>{{ ventas }} ventas</p>
+        </li>
         {% endfor %}
       </ul>
       {% endif %}
 
-      <!-- Mostrar reporte de clientes con más compras -->
       {% if clientes_mas_compras %}
       <h2>Clientes con más compras</h2>
       <ul>
         {% for cliente_id, compras in clientes_mas_compras %}
-        <li>Cliente ID {{ cliente_id }}: {{ compras }} compras</li>
+        <li>
+          <p>Cliente ID {{ cliente_id }}</p>
+          <p>{{ compras }} compras</p>
+        </li>
         {% endfor %}
       </ul>
       {% endif %}
 
-      <!-- Mostrar ventas por intervalo -->
       {% if ventas_por_intervalo %}
       <h2>Ventas entre las fechas seleccionadas:</h2>
       <ul>
         {% for venta in ventas_por_intervalo %}
         <li>
-          ID Compra: {{ venta['id_compra'] }} - Cliente ID: {{
-          venta['id_cliente'] }} - Película ID: {{ venta['id_pelicula'] }} -
-          Fecha: {{ venta['fecha'] }}
+          <p>ID Compra: {{ venta['id_compra'] }}</p>
+          <p>Cliente ID: {{ venta['id_cliente'] }}</p>
+          <p>Película ID: {{ venta['id_pelicula'] }}</p>
+          <p>Fecha: {{ venta['fecha'] }}</p>
         </li>
         {% endfor %}
       </ul>

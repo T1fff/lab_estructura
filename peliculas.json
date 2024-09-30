@@ -3,7 +3,7 @@
         "id": "1",
         "titulo": "Pelicula 1",
         "director": "Juan P",
-        "año": "2002",
+        "año": "2001",
         "genero": "Actions",
         "precio": "10000.0"
     },
@@ -22,5 +22,21 @@
         "año": 2020,
         "genero": "Romance",
         "precio": 10000.0
+    },
+    {
+        "id": "4",
+        "titulo": "Pelicula 4",
+        "director": "Maira F",
+        "año": 2012,
+        "genero": "Comedia",
+        "precio": 5500.0
+    },
+    {
+        "id": "5",
+        "titulo": "Pelicula 5",
+        "director": "Maira F",
+        "año": 2001,
+        "genero": "Comedia",
+        "precio": 12000.0
     }
 ]

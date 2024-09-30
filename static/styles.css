@@ -189,8 +189,9 @@ input {
 .container_pelis,
 .filtros {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   width: 100%;
+  flex-wrap: wrap; 
 }
 
 .container_title {

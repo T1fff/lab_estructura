@@ -281,15 +281,12 @@ class Archivo_Compra:
         archivo_clientes = Archivo_Clientes('clientes.json')
         archivo_peliculas = Archivo_Pelicula('peliculas.json')
 
-        # Verificar si el ID de cliente existe
         if not self.existe_id(compra.id_cliente, archivo_clientes.leer_clientes(), id='id'):
             return f"No existe un cliente con el ID {compra.id_cliente}"
 
-        # Verificar si el ID de película existe
         if not self.existe_id(compra.id_pelicula, archivo_peliculas.leer_pelicula(), id='id'):
             return f"No existe una película con el ID {compra.id_pelicula}"
 
-        # Si las validaciones son satisfactorias, agregar la compra
         compras = self.leer_compra()
         compras.append(compra.to_dict())
         self.actualizar_compra(compras)
@@ -371,13 +368,10 @@ class Archivo_Compra:
 
       self.actualizar_compra(compras_actualizadas)
 
-# Asumiendo que ya tienes estas clases definidas y con acceso a los métodos correspondientes.
-
-# Asumiendo que ya tienes estas clases definidas y con acceso a los métodos correspondientes.
 class SistemaReportes:
 
     def __init__(self, archivo_compras, archivo_peliculas, archivo_clientes):
-        # Usamos las instancias ya creadas en vez de crear nuevas
+       
         self.archivo_compras = archivo_compras
         self.archivo_peliculas = archivo_peliculas
         self.archivo_clientes = archivo_clientes
@@ -386,7 +380,7 @@ class SistemaReportes:
         # Obtener todas las compras
         compras = self.archivo_compras.leer_compra()
         
-        # Lógica para contar cuántas veces ha sido vendida cada película
+   
         peliculas_vendidas = {}
         for compra in compras:
             pelicula_id = compra['id_pelicula']
@@ -395,7 +389,7 @@ class SistemaReportes:
             else:
                 peliculas_vendidas[pelicula_id] = 1
 
-        # Ordenar las películas por ventas
+       
         peliculas_ordenadas = sorted(peliculas_vendidas.items(), key=lambda x: x[1], reverse=True)
         return peliculas_ordenadas
 
@@ -403,7 +397,7 @@ class SistemaReportes:
         # Obtener todas las compras
         compras = self.archivo_compras.leer_compra()
 
-        # Lógica para contar cuántas compras ha realizado cada cliente
+        
         clientes_compras = {}
         for compra in compras:
             cliente_id = compra['id_cliente']
@@ -412,33 +406,32 @@ class SistemaReportes:
             else:
                 clientes_compras[cliente_id] = 1
 
-        # Ordenar los clientes por número de compras
+        
         clientes_ordenados = sorted(clientes_compras.items(), key=lambda x: x[1], reverse=True)
         return clientes_ordenados
 
     def ventas_por_intervalo(self, fecha_inicio, fecha_fin):
-    # Convertir las fechas de inicio y fin a objetos datetime
+  
         try:
             fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d')
             fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d')
         except ValueError:
             return {"error": "Las fechas deben estar en formato YYYY-MM-DD."}
         
-        ventas = self.archivo_compras.leer_compra()  # Cambia esto para obtener las compras correctas
+        ventas = self.archivo_compras.leer_compra()  
         ventas_filtradas = []
 
         for venta in ventas:
             try:
-                # Asegúrate de que 'fecha' sea una clave válida
                 fecha_venta = datetime.strptime(venta['fecha'], '%Y-%m-%d') 
                 if fecha_inicio <= fecha_venta <= fecha_fin:
                     ventas_filtradas.append(venta)
             except KeyError as e:
                 print(f"La venta no tiene una fecha válida: {venta}. Error: {e}")
-                continue  # Ignorar esta venta y continuar con la siguiente
+                continue  
 
-        # Si no se encontraron ventas, retornar un mensaje
+      
         if not ventas_filtradas:
             return {"mensaje": "No se encontraron ventas en el intervalo seleccionado."}
 
-        return ventas_filtradas  # Devolver las ventas filtradas
+        return ventas_filtradas  

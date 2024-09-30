@@ -23,26 +23,25 @@ table th {
 }
 
 table td {
-  padding: 1rem; /* Espaciado interno */
-  text-align: left; /* Alineación de texto a la izquierda */
-  border-bottom: 1px solid #f4f4f433; /* Línea debajo de las celdas */
+  padding: 1rem; 
+  text-align: left; 
+  border-bottom: 1px solid #f4f4f433; 
 }
 
-/* Estilos para las filas del tbody intercaladas */
 table tbody tr:nth-child(odd) {
-  background-color: transparent; /* Color transparente para filas impares */
+  background-color: transparent; 
 }
 
 table tbody tr:nth-child(even) {
-  background-color: #3535354e; /* Color sólido para filas pares */
+  background-color: #3535354e; 
 }
 
 table tr:hover {
-  background-color: #e9e9e90c; /* Color al pasar el ratón sobre la fila */
+  background-color: #e9e9e90c; /
 }
 
 table tbody tr:hover {
-  background-color: #46464621; /* Color al pasar el ratón sobre la fila */
+  background-color: #46464621; 
 }
 
 .reportes{

@@ -20,6 +20,7 @@
     </nav>
     <div class="container">
       <h1>Resultados de búsqueda</h1>
+      {% if peliculas %}
       <div class="container_pelis">
         {% for pelicula in peliculas %}
         <div class="peli">
@@ -40,6 +41,10 @@
         </div>
         {% endfor %}
       </div>
+      {% else %}
+      <p>No se encontraron resultados</p>
+      {%endif%}
+
       <a href="/" class="back">Volver</a>
     </div>
   </body>

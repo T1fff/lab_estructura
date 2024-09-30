@@ -1,0 +1,29 @@
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;             
+    gap: 1rem;                          
+}
+
+li {
+    border: 1px solid #e7c530;          
+    padding: 2rem 4rem;
+    text-align: center;
+}
+
+li > p {
+    margin: 0;                         
+}
+
+li>p:first-child {
+    font-weight: bold;      
+    color: #e7c530;    
+    margin-bottom: 1rem;       
+}
+
+
+
+li:hover {
+    background-color: transparent;        
+    cursor: pointer;                    
+}

@@ -10,5 +10,11 @@
         "nombre": "Diana Hernandez",
         "correo": "diana@gmail.com",
         "direccion": "cra 12 dir 5"
+    },
+    {
+        "id": "3",
+        "nombre": "Miguel P",
+        "correo": "migue@gmail.com",
+        "direccion": "cra 34"
     }
 ]
