@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "titulo": "Pelicula 1",
+        "director": "Juan P",
+        "año": "2002",
+        "genero": "Actions",
+        "precio": "10000.0"
+    },
+    {
+        "id": "2",
+        "titulo": "Pelicula 2",
+        "director": "Juan H",
+        "año": "2001",
+        "genero": "Romance",
+        "precio": "2000.0"
+    },
+    {
+        "id": "3",
+        "titulo": "Pelicula 3",
+        "director": "Maira F",
+        "año": 2020,
+        "genero": "Romance",
+        "precio": 10000.0
+    }
+]

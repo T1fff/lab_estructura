@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestionar Películas</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='crud.css') }}"
+    />
+  </head>
+
+  <body>
+    <nav>
+      <h1><a href="{{ url_for('index') }}">PELISYA</a></h1>
+      <a
+        href="{{ url_for('listar_peliculas') }}"
+        style="border-bottom: 1px solid #e7c530"
+        >Gestionar Películas</a
+      >
+      <a href="{{ url_for('listar_clientes') }}">Gestionar Clientes</a>
+      <a href="{{ url_for('listar_compras') }}">Gestionar Compras</a>
+    </nav>
+    <div class="container">
+      <h2>Agregar Nueva Película</h2>
+      <form action="{{ url_for('agregar_pelicula') }}" method="POST">
+        <input type="text" name="id" placeholder="ID" required />
+        <input type="text" name="titulo" placeholder="Título" required />
+        <input type="text" name="director" placeholder="Director" required />
+        <input type="number" name="año" placeholder="Año" required />
+        <input type="text" name="genero" placeholder="Género" required />
+        <input type="number" name="precio" placeholder="Precio" required />
+        <button type="submit">Agregar Película</button>
+      </form>
+      <h2>Lista de Películas</h2>
+      <form method="POST" action="{{ url_for('buscar_peliculas') }}">
+        <input
+          type="text"
+          name="query"
+          placeholder="Buscar por título, director, género o año"
+        />
+        <button type="submit">Buscar</button>
+      </form>
+
+      {% if session.get('modal_abierto') %} {% set pelicula =
+      session.get('modal_pelicula') %} {% if pelicula %}
+      <div id="modal" style="display: block">
+        <h2>Actualizar Película</h2>
+        <form
+          action="{{ url_for('actualizar_pelicula', id=pelicula['id']) }}"
+          method="POST"
+        >
+          <label>Título:</label>
+          <input
+            type="text"
+            name="titulo"
+            value="{{ pelicula['titulo'] }}"
+            required
+          /><br />
+          <label>Director:</label>
+          <input
+            type="text"
+            name="director"
+            value="{{ pelicula['director'] }}"
+            required
+          /><br />
+          <label>Año:</label>
+          <input
+            type="number"
+            name="año"
+            value="{{ pelicula['año'] }}"
+            required
+          /><br />
+          <label>Género:</label>
+          <input
+            type="text"
+            name="genero"
+            value="{{ pelicula['genero'] }}"
+            required
+          /><br />
+          <label>Precio:</label>
+          <input
+            type="number"
+            name="precio"
+            value="{{ pelicula['precio'] }}"
+            required
+          /><br />
+          <button type="submit">Actualizar</button>
+          <a
+            href="{{ url_for('cerrar_modal_pelicula') }}"
+            style="text-decoration: none"
+          >
+            <button type="button">Cerrar</button>
+          </a>
+        </form>
+      </div>
+      {% else %}
+      <p>Error: Película no encontrada.</p>
+      {% endif %} {% endif %}
+
+      <!-- Resultados de búsqueda -->
+      {% if query %}
+      <h2>Resultados de la búsqueda:</h2>
+      <a href="{{ url_for('listar_peliculas') }}">Listar todas las peliculas</a>
+      {% if peliculas %}
+      <div class="container_pelis">
+        {% for pelicula in peliculas %}
+
+        <div class="peli">
+          <div class="peli_img">.</div>
+          <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
+          <p class="peli_director">
+            Dirigida por: <span>{{ pelicula['director'] }}</span>
+          </p>
+          <p class="peli_director_anio">
+            Estrenada: <span>{{ pelicula['año'] }}</span>
+          </p>
+          <p class="peli_genero">
+            Género: <span>{{ pelicula['genero'] }}</span>
+          </p>
+          <p class="peli_precio">
+            Precio: <span>{{ pelicula['precio'] }}</span>
+          </p>
+        </div>
+        <form
+          action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit">Eliminar</button>
+        </form>
+
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No se encontraron películas con el título "{{ query }}".</p>
+      {% endif %} {% else %}
+      <h2>Listado Completo de Películas</h2>
+      <div class="container_pelis">
+        {% if peliculas %} {% for pelicula in peliculas %}
+
+        <div class="peli">
+          <div class="peli_img">.</div>
+          <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
+          <p class="peli_director">
+            Dirigida por: <span>{{ pelicula['director'] }}</span>
+          </p>
+          <p class="peli_director_anio">
+            Estrenada: <span>{{ pelicula['año'] }}</span>
+          </p>
+          <p class="peli_genero">
+            Género: <span>{{ pelicula['genero'] }}</span>
+          </p>
+          <p class="peli_precio">
+            Precio: <span>{{ pelicula['precio'] }}</span>
+          </p>
+          <form
+            action="{{ url_for('eliminar_pelicula', id=pelicula['id']) }}"
+            method="POST"
+            style="display: inline"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+          <a
+            href="{{ url_for('abrir_modal_pelicula', id=pelicula['id']) }}"
+            style="text-decoration: none"
+          >
+            <button type="button">Editar</button>
+          </a>
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

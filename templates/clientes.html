@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestionar Clientes</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='crud.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <h1><a href="{{ url_for('index') }}">PELISYA</a></h1>
+      <a href="{{ url_for('listar_peliculas') }}">Gestionar Películas</a>
+      <a
+        href="{{ url_for('listar_clientes') }}"
+        style="border-bottom: 1px solid #e7c530"
+        >Gestionar Clientes</a
+      >
+      <a href="{{ url_for('listar_compras') }}">Gestionar Compras</a>
+    </nav>
+    <div class="container">
+      <h2>Agregar Nuevo Cliente</h2>
+      <form action="{{ url_for('agregar_cliente') }}" method="POST">
+        <input type="text" name="id" placeholder="ID" required />
+        <input type="text" name="nombre" placeholder="Nombre" required />
+        <input type="email" name="correo" placeholder="Correo" required />
+        <input type="text" name="direccion" placeholder="Dirección" required />
+        <button type="submit">Agregar Cliente</button>
+      </form>
+      
+      <h2>Lista de Clientes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cliente in clientes %}
+          <tr>
+            <td>{{ cliente['nombre'] }}</td>
+            <td>{{ cliente['correo'] }}</td>
+            <td>{{ cliente['direccion'] }}</td>
+            <td>
+              <!-- Botón para abrir el modal de actualización -->
+              <a
+                class="actualizar_btn"
+                href="{{ url_for('abrir_modal', id=cliente['id']) }}"
+              >
+                Actualizar
+              </a>
+              <form
+                action="{{ url_for('eliminar_cliente', id=cliente['id']) }}"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if session.get('modal_abierto') %} {% set cliente =
+      session.get('modal_cliente') %} {% if cliente %}
+      <div id="modal" style="display: block">
+        <h2>Actualizar Cliente</h2>
+        <form
+          action="{{ url_for('actualizar_cliente', id=cliente['id']) }}"
+          method="POST"
+        >
+          <label>Nombre:</label>
+          <input
+            type="text"
+            name="nombre"
+            value="{{ cliente['nombre'] }}"
+            required
+          /><br />
+          <label>Correo:</label>
+          <input
+            type="email"
+            name="correo"
+            value="{{ cliente['correo'] }}"
+            required
+          /><br />
+          <label>Dirección:</label>
+          <input
+            type="text"
+            name="direccion"
+            value="{{ cliente['direccion'] }}"
+            required
+          /><br />
+          <button type="submit">Actualizar</button>
+          <a href="{{ url_for('cerrar_modal') }}" style="text-decoration: none">
+            <button type="button">Cerrar</button>
+          </a>
+        </form>
+      </div>
+      {% else %}
+      <p>Error: Cliente no encontrado.</p>
+      {% endif %}
+      <!-- Cierre del if para cliente -->
+      {% endif %}
+      <!-- Cierre del if para modal_abierto -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Películas</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <h1><a href="{{ url_for('index') }}">PELISYA</a></h1>
+
+      <a href="{{ url_for('listar_peliculas') }}">Administración</a>
+    </nav>
+    <div class="carousel">
+      <input type="radio" name="slider" id="slide1" checked />
+      <input type="radio" name="slider" id="slide2" />
+      <input type="radio" name="slider" id="slide3" />
+
+      <div class="slides">
+        <div class="slide">
+          <img
+            src="https://media.revistagq.com/photos/635a2ea4c39eb51840f8afe9/16:9/w_2240,c_limit/henry-cavill-superman-futuro-peliculas.jpeg"
+            alt="Imagen 1"
+          />
+        </div>
+        <div class="slide">
+          <img
+            src="https://wallpapercave.com/wp/wp3890158.jpg"
+            alt="Imagen 2"
+          />
+        </div>
+        <div class="slide">
+          <img
+            src="https://4kwallpapers.com/images/walls/thumbs_3t/3639.jpg"
+            alt="Imagen 3"
+          />
+        </div>
+      </div>
+
+      <div class="navigation">
+        <label for="slide1"></label>
+        <label for="slide2"></label>
+        <label for="slide3"></label>
+      </div>
+    </div>
+    <div class="microbanner">
+      <h2 class="microbanner_title">
+        Tenemos la selección de películas más grande del país.
+      </h2>
+      <p class="microbanner_subtitle">
+        Aprovecha nuestras promociones y renta ya tu película!
+      </p>
+    </div>
+    <div class="container">
+      <h2 class="container_title">Peliculas recomendadas de la semana</h2>
+      <div class="container_pelis">
+        {% if peliculas %} {% for pelicula in peliculas %}
+        <div class="peli">
+          <div class="peli_img">.</div>
+          <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
+          <p class="peli_director">
+            Dirigida por: <span>{{ pelicula['director'] }}</span>
+          </p>
+          <p class="peli_director_anio">
+            Estrenada: <span>{{ pelicula['año'] }}</span>
+          </p>
+        </div>
+        {% endfor %} {% endif %}
+      </div>
+
+      <div class="">
+        <h2 class="container_title">Directores</h2>
+        <div class="filtros">
+          {% for director in directores %}
+          <div class="filtros_el">
+            <a href="{{ url_for('buscar_por_director', director=director) }}"
+              ><img src="../static/character.png" alt="" />{{ director }}</a
+            >
+          </div>
+          {% endfor %}
+        </div>
+
+        <h2 class="container_title">Géneros</h2>
+        <div class="filtros">
+          {% for genero in generos %}
+          <div class="filtros_el filtros_el1">
+            <a href="{{ url_for('buscar_por_genero', genero=genero) }}"
+              >{{ genero }}</a
+            >
+          </div>
+          {% endfor %}
+        </div>
+
+        <h2 class="container_title">Años</h2>
+        <div class="filtros">
+          {% for anio in anios %}
+          <div class="filtros_el filtros_el1">
+            <a href="{{ url_for('buscar_por_anio', anio=anio) }}">{{ anio }}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <h3>PELISYA</h3>
+        <p>
+          Encuentra tus películas favoritas y disfruta del mejor
+          entretenimiento.
+        </p>
+        <ul class="socials">
+          <li>
+            <a href="#"><i class="fa fa-facebook"></i> Facebook</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 PELISYA. Todos los derechos reservados.</p>
+        <p>
+          Contacto: <a href="mailto:info@pelisya.com">info@pelisya.com</a> |
+          Tel: +57 123 456 7890
+        </p>
+        <p>Horario de atención: Lunes a Viernes de 9:00 AM a 6:00 PM</p>
+      </div>
+    </footer>
+  </body>
+</html>

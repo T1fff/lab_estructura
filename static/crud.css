@@ -1,0 +1,46 @@
+form {
+  display: flex;
+  gap: 1rem;
+}
+form > input {
+  display: flex;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #f4f4f4;
+  color: #f4f4f4;
+}
+
+table {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  border-collapse: collapse; /* Combina bordes de celdas */
+}
+
+table th {
+  background-color: #e7c5304c; /* Color sólido para el encabezado */
+  color: #fff; /* Color del texto */
+  padding: 1rem; /* Espaciado interno */
+  text-align: left; /* Alineación de texto a la izquierda */
+}
+
+table td {
+  padding: 1rem; /* Espaciado interno */
+  text-align: left; /* Alineación de texto a la izquierda */
+  border-bottom: 1px solid #f4f4f433; /* Línea debajo de las celdas */
+}
+
+/* Estilos para las filas del tbody intercaladas */
+table tbody tr:nth-child(odd) {
+  background-color: transparent; /* Color transparente para filas impares */
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #3535354e; /* Color sólido para filas pares */
+}
+
+table tr:hover {
+  background-color: #e9e9e90c; /* Color al pasar el ratón sobre la fila */
+}
+
+table tbody tr:hover {
+  background-color: #46464621; /* Color al pasar el ratón sobre la fila */
+}

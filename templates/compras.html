@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestionar Compras</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='crud.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <h1><a href="{{ url_for('index') }}">PELISYA</a></h1>
+      <a href="{{ url_for('listar_peliculas') }}">Gestionar Películas</a>
+      <a href="{{ url_for('listar_clientes') }}">Gestionar Clientes</a>
+      <a
+        style="border-bottom: 1px solid #e7c530"
+        href="{{ url_for('listar_compras') }}"
+        >Gestionar Compras</a
+      >
+    </nav>
+    <div class="container">
+      <h2>Agregar Nueva Compra</h2>
+      <form action="{{ url_for('agregar_compra') }}" method="POST">
+        <input
+          type="text"
+          name="id_compra"
+          placeholder="ID de Compra"
+          required
+        />
+        <input
+          type="text"
+          name="id_cliente"
+          placeholder="ID de Cliente"
+          required
+        />
+        <input
+          type="text"
+          name="id_pelicula"
+          placeholder="ID de Película"
+          required
+        />
+        <input
+          type="date"
+          name="fecha"
+          placeholder="Fecha de Compra"
+          required
+        />
+        <button type="submit">Agregar Compra</button>
+      </form>
+      <h2>Lista de Compras</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Compra</th>
+            <th>ID Cliente</th>
+            <th>ID Película</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for compra in compras %}
+          <tr>
+            <td>{{ compra['id_compra'] }}</td>
+            <td>{{ compra['id_cliente'] }}</td>
+            <td>{{ compra['id_pelicula'] }}</td>
+            <td>{{ compra['fecha'] }}</td>
+            <td>
+              <!-- Botón para abrir el modal de actualización -->
+              <a
+                class="actualizar_btn"
+                href="{{ url_for('abrir_modal_compra', id=compra['id_compra']) }}"
+              >
+                Actualizar
+              </a>
+              <form
+                action="{{ url_for('eliminar_compra', id_compra=compra['id_compra']) }}"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if session.get('modal_abierto') %} {% set compra =
+      session.get('modal_compra') %} {% if compra %}
+      <div id="modal" style="display: block">
+        <h2>Actualizar Compra</h2>
+
+        <form
+          action="{{ url_for('actualizar_compra', id=compra['id_compra']) }}"
+          method="POST"
+        >
+          <label>ID Cliente:</label>
+          <input
+            type="text"
+            name="id_cliente"
+            value="{{ compra['id_cliente'] }}"
+            required
+          /><br />
+          <label>ID Película:</label>
+          <input
+            type="text"
+            name="id_pelicula"
+            value="{{ compra['id_pelicula'] }}"
+            required
+          /><br />
+          <label>Fecha:</label>
+          <input
+            type="date"
+            name="fecha"
+            value="{{ compra['fecha'] }}"
+            required
+          /><br />
+          <button type="submit">Actualizar</button>
+          <a href="{{ url_for('cerrar_modal') }}" style="text-decoration: none">
+            <button type="button">Cerrar</button>
+          </a>
+        </form>
+      </div>
+      {% else %}
+      <p>Error: Compra no encontrada.</p>
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>

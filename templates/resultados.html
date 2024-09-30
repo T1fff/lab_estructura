@@ -1,0 +1,46 @@
+<!-- resultados.html -->
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Resultados de búsqueda</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='resultados.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <h2>PELISYA</h2>
+      <a href="{{ url_for('listar_peliculas') }}">Administración</a>
+    </nav>
+    <div class="container">
+      <h1>Resultados de búsqueda</h1>
+      <div class="container_pelis">
+        {% for pelicula in peliculas %}
+        <div class="peli">
+          <div class="peli_img">.</div>
+          <p class="peli_titulo">{{ pelicula['titulo'] }}</p>
+          <p class="peli_director">
+            Dirigida por: <span>{{ pelicula['director'] }}</span>
+          </p>
+          <p class="peli_director_anio">
+            Estrenada: <span>{{ pelicula['año'] }}</span>
+          </p>
+          <p class="peli_genero">
+            Género: <span>{{ pelicula['genero'] }}</span>
+          </p>
+          <p class="peli_precio">
+            Precio: <span>{{ pelicula['precio'] }}</span>
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+      <a href="/" class="back">Volver</a>
+    </div>
+  </body>
+</html>

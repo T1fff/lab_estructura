@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "nombre": "Maria P",
+        "correo": "maria@gmail.com",
+        "direccion": "cra 1 dir 6"
+    },
+    {
+        "id": "2",
+        "nombre": "Diana H",
+        "correo": "diana@gmail.com",
+        "direccion": "cra 12 dir 5"
+    }
+]
